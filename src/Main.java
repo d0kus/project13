@@ -18,8 +18,15 @@ public class Main{
 
         freelancer freelancer1 = new freelancer("Diyar", "IT", 4.5);
         freelancer freelancer2 = new freelancer("Aibek", "Design", 4.3);
+        freelancer1.increaseRating(0.4);
         freelancer2.increaseRating(0.2);
         freelancer2.changeSphere("Data Science");
+        if(freelancer1.getRating() > 4.0) {
+            System.out.println("freelancer1 has a high rating.");
+        }
+        if(freelancer2.getRating() > 4.0) {
+            System.out.println("freelancer2 has a high rating.");
+        }
 
         System.out.println("Portal info: ");
         portal1.printinfo();
