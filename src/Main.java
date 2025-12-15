@@ -2,6 +2,12 @@ public class Main{
     public static void main(String[] args) {
         joblisting job1 = new joblisting("Software Engineer", "TechCorp", "IT", true);
         joblisting job2 = new joblisting("IT designer", "DesignPro", "Design", false);
+        joblisting job3 = new joblisting();
+        job3.setJobTitle("Data Scientist");
+        job3.setCompany("DataSolutions");
+        job3.setSphere("Data Science");
+        job3.setActive(false);
+        job3.activate();
 
         portal portal1 = new portal("FreelanceHub", "www.freelancehub.com", 5000, true);
         portal portal2 = new portal();
@@ -12,6 +18,8 @@ public class Main{
 
         freelancer freelancer1 = new freelancer("Diyar", "IT", 4.5);
         freelancer freelancer2 = new freelancer("Aibek", "Design", 4.3);
+        freelancer2.increaseRating(0.2);
+        freelancer2.changeSphere("Data Science");
 
         System.out.println("Portal info: ");
         portal1.printinfo();
