@@ -1,0 +1,53 @@
+public abstract class User {
+    private int Id;
+    private String Name;
+    private String Country;
+    private String Sphere;
+
+    protected User(int id, String name, String country, String sphere) {
+        this.Id = id;
+        setName(name);
+        setCountry(country);
+        setSphere(sphere);
+    }
+
+    protected static String checkblank(String value){
+        if (value == null || value.isEmpty()) {
+            return "N/A";
+        }
+        return value;
+    }
+
+    public int getId() {
+        return Id;
+    }
+    public String getName() {
+        return Name;
+    }
+    public void setName(String name) {
+        this.Name = checkblank(name);
+    }
+    public String getCountry() {
+        return Country;
+    }
+    public void setCountry(String country) {
+        this.Country = checkblank(country);
+    }
+    public String getSphere() {
+        return Sphere;
+    }
+    public void setSphere(String sphere) {
+        this.Sphere = checkblank(sphere);
+    }
+
+    public abstract String getRole();
+
+    public String shortInfo() {
+        return getRole() + ": " + Name +"(" + Sphere + ")" +  " from " + Country + " ID: " + Id;
+    }
+
+
+}
+
+
+

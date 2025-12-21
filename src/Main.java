@@ -1,74 +1,99 @@
+import java.util.HashSet;
+
 public class Main{
     public static void main(String[] args) {
-        joblisting job1 = new joblisting("Software Engineer", "TechCorp", "IT", true);
-        joblisting job2 = new joblisting("IT designer", "DesignPro", "Design", false);
-        joblisting job3 = new joblisting();
+        Joblisting job1 = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
+        Joblisting job2 = new Joblisting(2, "IT designer", "DesignPro", "Design", false);
+        Joblisting job3 = new Joblisting();
+        job3.setId(1);
         job3.setJobTitle("Data Scientist");
         job3.setCompany("DataSolutions");
         job3.setSphere("Data Science");
         job3.setActive(false);
         job3.activate();
 
-        portal portal1 = new portal("FreelanceHub", "www.freelancehub.com", 5000, true);
-        portal portal2 = new portal();
+        HashSet<Joblisting> set = new HashSet<>();
+        set.add(job1);
+        set.add(job3);
+        System.out.println("Number of unique job listings in the set: " + set.size());
+        System.out.println("a.equals b: " + job1.equals(job3));
+        System.out.println("a.hashCode(): " + job1.hashCode());
+        System.out.println("b.hashCode(): " + job3.hashCode());
+        System.out.println("hashset contents" + set);
+
+
+
+        Portal portal1 = new Portal(1,"FreelanceHub", "www.freelancehub.com", 5000, true);
+        Portal portal2 = new Portal();
+        portal2.setId(2);
         portal2.setPortalName("JobConnect");
         portal2.setUrl("www.jobconnect.com");
         portal2.setUsersActive(3000);
         portal2.setWorking(true);
 
-        freelancer freelancer1 = new freelancer("Diyar", "IT", 4.5);
-        freelancer freelancer2 = new freelancer("Aibek", "Design", 4.3);
-        freelancer1.increaseRating(0.4);
-        freelancer2.increaseRating(0.2);
-        freelancer2.changeSphere("Data Science");
-        if(freelancer1.getRating() > 4.0) {
-            System.out.println("freelancer1 has a high rating.");
-        }
-        if(freelancer2.getRating() > 4.0) {
-            System.out.println("freelancer2 has a high rating.");
-        }
+        HashSet<Portal> set2 = new HashSet<>();
+        set2.add(portal1);
+        set2.add(portal2);
+        System.out.println("Number of unique portals in the set: " + set2.size());
+        System.out.println("portal1.equals portal2: " + portal1.equals(portal2));
+        System.out.println("portal1.hashCode(): " + portal1.hashCode());
+        System.out.println("portal2.hashCode(): " + portal2.hashCode());
+        System.out.println("hashset contents" + set2);
+        System.out.println(set2.contains(new Portal(1, "AnyTitle", "AnyCompany", 1222, true)));
+
+        User u1 = new Freelancer(1, "Diyar", "Kazakhstan", "IT", 4.8);
+        User u2 = new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT");
+        User u3 = new Freelancer(3, "Anton", "Russia", "Design", 4.5);
 
         System.out.println("Portal info: ");
-        portal1.printinfo();
-        portal2.printinfo();
+        System.out.println(portal1);
+        System.out.println(portal2);
+
         System.out.println("JobListing info: ");
-        job1.printinfo();
-        job2.printinfo();
+        System.out.println(job1);
+        System.out.println(job2);
+        System.out.println(job3);
+
         System.out.println("Freelancer info: ");
-        freelancer1.showinfo();
-        freelancer2.showinfo();
-        System.out.println("Freelancer rating comparison: ");
-        int comparisonResult = freelancer1.compareRating(freelancer2);
-        if (comparisonResult > 0) {
-            System.out.println("freelancer1 has a higher rating than freelancer2.");
-        }
-        else if (comparisonResult < 0) {
-            System.out.println("freelancer2 has a higher rating than freelancer1.");
-        } else {
-            System.out.println("Both freelancers have the same rating.");
+        User[] users = {u1, u2, u3};
+        for (User user : users) {
+            System.out.println(user.shortInfo());
         }
 
-        System.out.println("Count active job listings: ");
-        int activeJobs = 0;
-        if (job1.isActive()) {
-            activeJobs++;
+        DataPool pool = new DataPool();
+
+        pool.addUser(u1);
+        pool.addUser(u2);
+        pool.addUser(u3);
+
+        pool.addJoblisting(job1);
+        pool.addJoblisting(job2);
+        pool.addJoblisting(job3);
+
+        pool.addPortal(portal1);
+        pool.addPortal(portal2);
+
+        System.out.println("findUserById(2): " + pool.findUserById(2));
+
+        System.out.println("Active job listings: " + pool.activeJob());
+        System.out.println("Number of active job listings: " + pool.activeJob().size());
+
+        System.out.println("All users:");
+        for (User user : pool.getUsers()) {
+            System.out.println(user.shortInfo());
         }
-        if (job2.isActive()) {
-            activeJobs++;
-        }
-        System.out.println("Number of active job listings: " + activeJobs);
 
         System.out.println("Max active users on portals: ");
-        portal[] portals = {portal1, portal2};
         int maxActiveUsers = 0;
-        for(int i = 0; i < portals.length; i++) {
-            int currentUsers = portals[i].getUsersActive();
-            System.out.println("Portal " + (i + 1) + " has " + currentUsers + " active users.");
-            if(currentUsers > maxActiveUsers) {
-                maxActiveUsers = currentUsers;
+        for (Portal p : pool.getPortals()) {
+            if (p.getUsersActive() > maxActiveUsers) {
+                maxActiveUsers = p.getUsersActive();
             }
         }
         System.out.println("Max active users on portals: " + maxActiveUsers);
-
+        System.out.println("Freelancers sorted by rating (manual): ");
+        for (Freelancer f : pool.sortFreelancersByRatingDescManual()) {
+            System.out.println(f.shortInfo());
+        }
     }
 }
