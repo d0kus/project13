@@ -48,7 +48,8 @@ public class DataPool {
     public List<Freelancer> sortFreelancersByRatingDescManual() {
         List<Freelancer> fs = new ArrayList<>();
         for (User u : users) {
-            fs.add((Freelancer) u);
+            if (u.getClass() == Freelancer.class)
+                fs.add((Freelancer) u);
         }
         for (int i = 0; i < fs.size() - 1; i++) {
             int maxIndex = i;

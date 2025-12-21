@@ -30,7 +30,7 @@ public class Freelancer extends User {
         setSphere(newSphere);
     }
     public void increaseRating(double increment) {
-        this.Rating += increment;
+        setRating(this.Rating + increment);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class Freelancer extends User {
         return "Freelancer";
     }
     @Override
-    public String shortInfo() {
-        return super.shortInfo() + " Rating: " + Rating;
+    public String toString() {
+        return super.toString() + " Rating: " + Rating;
     }
 
     public void showinfo() {
-        System.out.println(shortInfo());
+        System.out.println(toString());
     }
 
     public int compareRating(Freelancer other) {

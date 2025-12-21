@@ -17,7 +17,7 @@ public class Employer extends  User {
         return "Employer";
     }
     @Override
-    public String shortInfo() {
-        return super.shortInfo() + " Company: " + Company;
+    public String toString() {
+        return super.toString() + " Company: " + Company;
     }
 }

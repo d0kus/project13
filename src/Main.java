@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class Main{
@@ -54,10 +55,10 @@ public class Main{
         System.out.println(job2);
         System.out.println(job3);
 
-        System.out.println("Freelancer info: ");
+        System.out.println("users info: ");
         User[] users = {u1, u2, u3};
         for (User user : users) {
-            System.out.println(user.shortInfo());
+            System.out.println(Arrays.toString(users));
         }
 
         DataPool pool = new DataPool();
@@ -80,10 +81,9 @@ public class Main{
 
         System.out.println("All users:");
         for (User user : pool.getUsers()) {
-            System.out.println(user.shortInfo());
+            System.out.println(user);
         }
 
-        System.out.println("Max active users on portals: ");
         int maxActiveUsers = 0;
         for (Portal p : pool.getPortals()) {
             if (p.getUsersActive() > maxActiveUsers) {
@@ -91,9 +91,9 @@ public class Main{
             }
         }
         System.out.println("Max active users on portals: " + maxActiveUsers);
-        System.out.println("Freelancers sorted by rating (manual): ");
+        System.out.println("Freelancers sorted by rating: ");
         for (Freelancer f : pool.sortFreelancersByRatingDescManual()) {
-            System.out.println(f.shortInfo());
+            System.out.println(f);
         }
     }
 }

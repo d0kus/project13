@@ -42,9 +42,11 @@ public abstract class User {
 
     public abstract String getRole();
 
-    public String shortInfo() {
-        return getRole() + ": " + Name +"(" + Sphere + ")" +  " from " + Country + " ID: " + Id;
+    public String toString(){
+        return "ID: " + Id + " Name: " + Name + " Country: " + Country + " Sphere: " + Sphere;
     }
+
+
 
 
 }
