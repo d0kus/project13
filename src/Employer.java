@@ -16,8 +16,15 @@ public class Employer extends  User {
     public String getRole() {
         return "Employer";
     }
+
+    @Override
+    public void work() {
+        System.out.println(getName() + " from " + getCompany()
+                + " is posting vacancies in " + getSphere());
+    }
+
     @Override
     public String toString() {
-        return super.toString() + " Company: " + Company;
+        return getRole() +", " + super.toString() + ", Company: " + Company;
     }
 }

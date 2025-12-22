@@ -42,8 +42,10 @@ public abstract class User {
 
     public abstract String getRole();
 
+    public abstract void work();
+
     public String toString(){
-        return "ID: " + Id + " Name: " + Name + " Country: " + Country + " Sphere: " + Sphere;
+        return "ID: " + Id + " Name: " + Name + ", Country: " + Country + ", Sphere: " + Sphere;
     }
 
 

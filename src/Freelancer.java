@@ -37,9 +37,16 @@ public class Freelancer extends User {
     public String getRole() {
         return "Freelancer";
     }
+
+    @Override
+    public void work() {
+        System.out.println(getName() + " is completing tasks in " + getSphere()
+                + ", rating: " + getRating());
+    }
+
     @Override
     public String toString() {
-        return super.toString() + " Rating: " + Rating;
+        return getRole() + ", " + super.toString() + ", Rating: " + Rating;
     }
 
     public void showinfo() {

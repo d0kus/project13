@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
@@ -13,16 +14,14 @@ public class Main{
         job3.setActive(false);
         job3.activate();
 
-        HashSet<Joblisting> set = new HashSet<>();
-        set.add(job1);
-        set.add(job3);
-        System.out.println("Number of unique job listings in the set: " + set.size());
+        HashSet<Joblisting> setjob = new HashSet<>();
+        setjob.add(job1);
+        setjob.add(job3);
+        System.out.println("Number of unique job listings in the set: " + setjob.size());
         System.out.println("a.equals b: " + job1.equals(job3));
         System.out.println("a.hashCode(): " + job1.hashCode());
         System.out.println("b.hashCode(): " + job3.hashCode());
-        System.out.println("hashset contents" + set);
-
-
+        System.out.println("hashset contents" + setjob);
 
         Portal portal1 = new Portal(1,"FreelanceHub", "www.freelancehub.com", 5000, true);
         Portal portal2 = new Portal();
@@ -32,15 +31,15 @@ public class Main{
         portal2.setUsersActive(3000);
         portal2.setWorking(true);
 
-        HashSet<Portal> set2 = new HashSet<>();
-        set2.add(portal1);
-        set2.add(portal2);
-        System.out.println("Number of unique portals in the set: " + set2.size());
+        HashSet<Portal> setport = new HashSet<>();
+        setport.add(portal1);
+        setport.add(portal2);
+        System.out.println("Number of unique portals in the set: " + setport.size());
         System.out.println("portal1.equals portal2: " + portal1.equals(portal2));
         System.out.println("portal1.hashCode(): " + portal1.hashCode());
         System.out.println("portal2.hashCode(): " + portal2.hashCode());
-        System.out.println("hashset contents" + set2);
-        System.out.println(set2.contains(new Portal(1, "AnyTitle", "AnyCompany", 1222, true)));
+        System.out.println("hashset contents" + setport);
+        System.out.println(setport.contains(new Portal(1, "AnyTitle", "AnyCompany", 1222, true)));
 
         User u1 = new Freelancer(1, "Diyar", "Kazakhstan", "IT", 4.8);
         User u2 = new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT");
@@ -55,12 +54,6 @@ public class Main{
         System.out.println(job2);
         System.out.println(job3);
 
-        System.out.println("users info: ");
-        User[] users = {u1, u2, u3};
-        for (User user : users) {
-            System.out.println(Arrays.toString(users));
-        }
-
         DataPool pool = new DataPool();
 
         pool.addUser(u1);
@@ -74,7 +67,10 @@ public class Main{
         pool.addPortal(portal1);
         pool.addPortal(portal2);
 
-        System.out.println("findUserById(2): " + pool.findUserById(2));
+        System.out.println("type id to find user");
+        Scanner sc = new Scanner(System.in);
+        int ent = sc.nextInt();
+        System.out.println(pool.findUserById(ent));
 
         System.out.println("Active job listings: " + pool.activeJob());
         System.out.println("Number of active job listings: " + pool.activeJob().size());
@@ -94,6 +90,13 @@ public class Main{
         System.out.println("Freelancers sorted by rating: ");
         for (Freelancer f : pool.sortFreelancersByRatingDescManual()) {
             System.out.println(f);
+        }
+        System.out.println("Type user id to check their work:");
+        int userid = sc.nextInt();
+        for (User user : pool.getUsers()) {
+            if (user.getId() == userid) {
+                user.work();
+            }
         }
     }
 }
