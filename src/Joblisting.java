@@ -17,12 +17,6 @@ public class Joblisting {
         setActive(isActive);
     }
 
-    private static String checkblank(String value){
-        if (value == null || value.isEmpty()) {
-            return "N/A";
-        }
-        return value;
-    }
     public int getId() {
         return Id;
     }
@@ -35,7 +29,7 @@ public class Joblisting {
     }
 
     public void setJobTitle(String jobTitle) {
-        this.jobTitle = checkblank(jobTitle);
+        this.jobTitle = User.checkblank(jobTitle);
     }
 
     public String getCompany() {
@@ -43,7 +37,7 @@ public class Joblisting {
     }
 
     public void setCompany(String company) {
-        this.Company = checkblank(company);
+        this.Company = User.checkblank(company);
     }
 
     public String getSphere() {
@@ -51,7 +45,7 @@ public class Joblisting {
     }
 
     public void setSphere(String sphere) {
-        this.Sphere = checkblank(sphere);
+        this.Sphere = User.checkblank(sphere);
     }
 
     public boolean isActive() {
@@ -63,15 +57,15 @@ public class Joblisting {
     }
 
     public void changeJobTitle(String newJobTitle) {
-        this.jobTitle = checkblank(newJobTitle);
+        this.jobTitle = User.checkblank(newJobTitle);
     }
 
     public void changeCompany(String newCompany) {
-        this.Company = checkblank(newCompany);
+        this.Company = User.checkblank(newCompany);
     }
 
     public void changeSphere(String newSphere) {
-        this.Sphere = checkblank(newSphere);
+        this.Sphere = User.checkblank(newSphere);
     }
 
     public void activate() {

@@ -1,5 +1,5 @@
 public abstract class User {
-    private int Id;
+    private final int Id;
     private String Name;
     private String Country;
     private String Sphere;
@@ -11,7 +11,7 @@ public abstract class User {
         setSphere(sphere);
     }
 
-    protected static String checkblank(String value){
+    public static String checkblank(String value){
         if (value == null || value.isEmpty()) {
             return "N/A";
         }

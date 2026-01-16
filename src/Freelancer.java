@@ -29,6 +29,7 @@ public class Freelancer extends User {
     public void changeSphere(String newSphere) {
         setSphere(newSphere);
     }
+
     public void increaseRating(double increment) {
         setRating(this.Rating + increment);
     }

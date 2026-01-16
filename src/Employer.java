@@ -12,6 +12,7 @@ public class Employer extends  User {
     public void setCompany(String company) {
         this.Company = checkblank(company);
     }
+
     @Override
     public String getRole() {
         return "Employer";

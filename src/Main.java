@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
+
+
+
         Joblisting job1 = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
         Joblisting job2 = new Joblisting(2, "IT designer", "DesignPro", "Design", false);
         Joblisting job3 = new Joblisting();

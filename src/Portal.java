@@ -16,12 +16,7 @@ public class Portal{
         setWorking(working);
     }
 
-    private static String checkblank(String value){
-        if (value == null || value.isEmpty()) {
-            return "N/A";
-        }
-        return value;
-    }
+
     public int getId() {
         return Id;
     }
@@ -33,13 +28,13 @@ public class Portal{
         return portalName;
     }
     public void setPortalName(String portalName) {
-        this.portalName = checkblank(portalName);
+        this.portalName = User.checkblank(portalName);
     }
     public String getUrl() {
         return url;
     }
     public void setUrl(String url) {
-        this.url = checkblank(url);
+        this.url = User.checkblank(url);
     }
     public int getUsersActive() {
         return usersActive;
