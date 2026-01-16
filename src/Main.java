@@ -1,11 +1,11 @@
-import java.util.Arrays;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args) {
-
-
 
         Joblisting job1 = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
         Joblisting job2 = new Joblisting(2, "IT designer", "DesignPro", "Design", false);
@@ -100,6 +100,33 @@ public class Main{
             if (user.getId() == userid) {
                 user.work();
             }
+        }
+        try (Connection con = Db.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("select version()")) {
+
+            rs.next();
+            System.out.println("Connected to: " + rs.getString(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            PortalRepository repo = new PortalRepository();
+
+            repo.insert(portal1);
+
+            int port = sc.nextInt();
+            System.out.println("Find id= "+ port + repo.findById(port));
+
+            repo.updateWorking(port, false); // UPDATE
+            System.out.println("After update: " + repo.findById(port));
+
+            System.out.println("All portals: " + repo.findAll());
+
+            repo.deleteById(port);
+            System.out.println("After delete, id= "+ port + repo.findById(port));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
