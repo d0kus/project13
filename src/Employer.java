@@ -1,5 +1,5 @@
 public class Employer extends  User {
-    private String Company;
+    private String company;
 
     public Employer(int Id, String Name, String Country, String Company, String Sphere) {
         super(Id, Name, Country, Sphere);
@@ -7,10 +7,10 @@ public class Employer extends  User {
     }
 
     public String getCompany() {
-        return Company;
+        return company;
     }
     public void setCompany(String company) {
-        this.Company = checkblank(company);
+        this.company = checkblank(company);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class Employer extends  User {
 
     @Override
     public String toString() {
-        return getRole() +", " + super.toString() + ", Company: " + Company;
+        return getRole() +", " + super.toString() + ", Company: " + company;
     }
 }

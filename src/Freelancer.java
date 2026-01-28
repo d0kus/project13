@@ -1,5 +1,5 @@
 public class Freelancer extends User {
-    private double Rating;
+    private double rating;
 
     public Freelancer(int Id, String Name, String Country, String Sphere, double Rating) {
         super(Id, Name, Country, Sphere);
@@ -14,15 +14,15 @@ public class Freelancer extends User {
     }
 
     public double getRating() {
-        return Rating;
+        return rating;
     }
     public void setRating(double rating) {
         if (rating < 0) {
-            this.Rating = 0;
+            this.rating = 0;
         } else if (rating > 5) {
-            this.Rating = 5;
+            this.rating = 5;
         } else {
-            this.Rating = rating;
+            this.rating = rating;
         }
     }
 
@@ -31,7 +31,7 @@ public class Freelancer extends User {
     }
 
     public void increaseRating(double increment) {
-        setRating(this.Rating + increment);
+        setRating(this.rating + increment);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Freelancer extends User {
 
     @Override
     public String toString() {
-        return getRole() + ", " + super.toString() + ", Rating: " + Rating;
+        return getRole() + ", " + super.toString() + ", Rating: " + rating;
     }
 
     public void showinfo() {
@@ -55,6 +55,6 @@ public class Freelancer extends User {
     }
 
     public int compareRating(Freelancer other) {
-        return Double.compare(this.Rating, other.Rating);
+        return Double.compare(this.rating, other.rating);
     }
 }

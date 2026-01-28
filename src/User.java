@@ -1,11 +1,11 @@
 public abstract class User {
-    private final int Id;
-    private String Name;
-    private String Country;
-    private String Sphere;
+    private final int id;
+    private String name;
+    private String country;
+    private String sphere;
 
     protected User(int id, String name, String country, String sphere) {
-        this.Id = id;
+        this.id = id;
         setName(name);
         setCountry(country);
         setSphere(sphere);
@@ -19,25 +19,25 @@ public abstract class User {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
     public String getName() {
-        return Name;
+        return name;
     }
     public void setName(String name) {
-        this.Name = checkblank(name);
+        this.name = checkblank(name);
     }
     public String getCountry() {
-        return Country;
+        return country;
     }
     public void setCountry(String country) {
-        this.Country = checkblank(country);
+        this.country = checkblank(country);
     }
     public String getSphere() {
-        return Sphere;
+        return sphere;
     }
     public void setSphere(String sphere) {
-        this.Sphere = checkblank(sphere);
+        this.sphere = checkblank(sphere);
     }
 
     public abstract String getRole();
@@ -45,7 +45,7 @@ public abstract class User {
     public abstract void work();
 
     public String toString(){
-        return "ID: " + Id + " Name: " + Name + ", Country: " + Country + ", Sphere: " + Sphere;
+        return "ID: " + id + " Name: " + name + ", Country: " + country + ", Sphere: " + sphere;
     }
 
 

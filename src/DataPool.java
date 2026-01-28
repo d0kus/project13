@@ -45,24 +45,13 @@ public class DataPool {
         return result;
     }
 
-    public List<Freelancer> sortFreelancersByRatingDescManual() {
+    public List<Freelancer> sortFreelancersByRatingDesc() {
         List<Freelancer> fs = new ArrayList<>();
         for (User u : users) {
-            if (u.getClass() == Freelancer.class)
-                fs.add((Freelancer) u);
+            if (u instanceof Freelancer f)
+                fs.add(f);
         }
-        for (int i = 0; i < fs.size() - 1; i++) {
-            int maxIndex = i;
-            for (int j = i + 1; j < fs.size(); j++) {
-                if (fs.get(j).getRating() > fs.get(maxIndex).getRating()) {
-                    maxIndex = j;
-                }
-            }
-            Freelancer tmp = fs.get(i);
-            fs.set(i, fs.get(maxIndex));
-            fs.set(maxIndex, tmp);
-        }
-
+        fs.sort(java.util.Comparator.comparingDouble(Freelancer::getRating).reversed());
         return fs;
     }
 

@@ -52,33 +52,45 @@ public class Main{
         System.out.println("type id to find user");
         Scanner sc = new Scanner(System.in);
         int ent = sc.nextInt();
-        System.out.println(pool.findUserById(ent));
+        User found = pool.findUserById(ent);
+        if (found == null) {
+            System.out.println("User with id=" + ent + " not found");
+        } else {
+            System.out.println(found);
+        }
 
-        System.out.println("Active job listings: " + pool.activeJob());
-        System.out.println("Number of active job listings: " + pool.activeJob().size());
+        var active = pool.activeJob();
+        System.out.println("Active job listings: " + active);
+        System.out.println("Number of active job listings: " + active.size());
 
         System.out.println("All users:");
         for (User user : pool.getUsers()) {
             System.out.println(user);
         }
 
-        int maxActiveUsers = 0;
+        Portal maxPortal = null;
         for (Portal p : pool.getPortals()) {
-            if (p.getUsersActive() > maxActiveUsers) {
-                maxActiveUsers = p.getUsersActive();
+            if (maxPortal == null || p.getUsersActive() > maxPortal.getUsersActive()) {
+                maxPortal = p;
             }
         }
-        System.out.println("Max active users on portals: " + maxActiveUsers);
+        if (maxPortal == null) {
+            System.out.println("No portals in pool");
+        } else {
+            System.out.println("Max active users portal: " + maxPortal);
+        }
+
         System.out.println("Freelancers sorted by rating: ");
-        for (Freelancer f : pool.sortFreelancersByRatingDescManual()) {
+        for (Freelancer f : pool.sortFreelancersByRatingDesc()) {
             System.out.println(f);
         }
         System.out.println("Type user id to check their work:");
         int userid = sc.nextInt();
-        for (User user : pool.getUsers()) {
-            if (user.getId() == userid) {
-                user.work();
-            }
+        User worker = pool.findUserById(userid);
+        if (worker == null) {
+            System.out.println("User with id=" + userid + " not found");
+        } else {
+            worker.work();
         }
 
 
@@ -94,6 +106,7 @@ public class Main{
         try {
             PortalRepository repo = new PortalRepository();
 
+            System.out.print("Enter portal id to find in DB: ");
             int port = sc.nextInt();
             System.out.println("Find id= "+ port + repo.findById(port));
 

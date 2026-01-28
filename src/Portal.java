@@ -1,5 +1,5 @@
 public class Portal{
-    private int Id;
+    private int id;
     private String portalName;
     private String url;
     private int usersActive;
@@ -18,10 +18,10 @@ public class Portal{
 
 
     public int getId() {
-        return Id;
+        return id;
     }
     public void setId(int Id) {
-        this.Id = Id;
+        this.id = Id;
     }
 
     public String getPortalName() {
@@ -51,18 +51,18 @@ public class Portal{
 
     @Override
     public String toString() {
-        return "Portal ID: " + Id + " Name: " + portalName + " URL: " + url + " Active Users: " + usersActive + " Working: " + working;
+        return "Portal ID: " + id + " Name: " + portalName + " URL: " + url + " Active Users: " + usersActive + " Working: " + working;
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Portal that = (Portal) o;
-        return Id == that.Id;
+        return id == that.id;
     }
     @Override
     public int hashCode() {
-        return Integer.hashCode(Id);
+        return Integer.hashCode(id);
     }
 
 }
