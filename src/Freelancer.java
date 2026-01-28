@@ -1,16 +1,9 @@
 public class Freelancer extends User {
     private double rating;
 
-    public Freelancer(int Id, String Name, String Country, String Sphere, double Rating) {
-        super(Id, Name, Country, Sphere);
-        if (Rating < 0) {
-            setRating(0);
-        } else if (Rating > 5) {
-            setRating(5);
-        } else {
-            setRating(Rating);
-        }
-
+    public Freelancer(int id, String name, String country, String sphere, double rating) {
+        super(id, name, country, sphere);
+        setRating(rating);
     }
 
     public double getRating() {

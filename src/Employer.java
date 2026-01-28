@@ -1,16 +1,16 @@
 public class Employer extends  User {
     private String company;
 
-    public Employer(int Id, String Name, String Country, String Company, String Sphere) {
-        super(Id, Name, Country, Sphere);
-        setCompany(Company);
+    public Employer(int id, String name, String country, String company, String sphere) {
+        super(id, name, country, sphere);
+        setCompany(company);
     }
 
     public String getCompany() {
         return company;
     }
     public void setCompany(String company) {
-        this.company = checkblank(company);
+        this.company = checkBlank(company);
     }
 
     @Override

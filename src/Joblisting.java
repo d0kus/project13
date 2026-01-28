@@ -1,8 +1,8 @@
 public class Joblisting {
-    private int Id;
+    private int id;
     private String jobTitle;
-    private String Company;
-    private String Sphere;
+    private String company;
+    private String sphere;
     private boolean isActive;
 
     public Joblisting() {
@@ -18,10 +18,10 @@ public class Joblisting {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
     public void setId(int Id) {
-        this.Id = Id;
+        this.id = Id;
     }
 
     public String getJobTitle() {
@@ -29,23 +29,23 @@ public class Joblisting {
     }
 
     public void setJobTitle(String jobTitle) {
-        this.jobTitle = User.checkblank(jobTitle);
+        this.jobTitle = User.checkBlank(jobTitle);
     }
 
     public String getCompany() {
-        return Company;
+        return company;
     }
 
     public void setCompany(String company) {
-        this.Company = User.checkblank(company);
+        this.company = User.checkBlank(company);
     }
 
     public String getSphere() {
-        return Sphere;
+        return sphere;
     }
 
     public void setSphere(String sphere) {
-        this.Sphere = User.checkblank(sphere);
+        this.sphere = User.checkBlank(sphere);
     }
 
     public boolean isActive() {
@@ -57,15 +57,15 @@ public class Joblisting {
     }
 
     public void changeJobTitle(String newJobTitle) {
-        this.jobTitle = User.checkblank(newJobTitle);
+        this.jobTitle = User.checkBlank(newJobTitle);
     }
 
     public void changeCompany(String newCompany) {
-        this.Company = User.checkblank(newCompany);
+        this.company = User.checkBlank(newCompany);
     }
 
     public void changeSphere(String newSphere) {
-        this.Sphere = User.checkblank(newSphere);
+        this.sphere = User.checkBlank(newSphere);
     }
 
     public void activate() {
@@ -78,7 +78,7 @@ public class Joblisting {
 
     @Override
     public String toString() {
-        return "Joblisting [Id=" + Id + ", jobTitle=" + jobTitle + ", Company=" + Company + ", Sphere=" + Sphere
+        return "Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
                 + ", isActive=" + isActive + "]";
     }
     @Override
@@ -86,11 +86,11 @@ public class Joblisting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Joblisting that = (Joblisting) o;
-        return Id == that.Id;
+        return id == that.id;
     }
     @Override
     public int hashCode() {
-        return Integer.hashCode(Id);
+        return Integer.hashCode(id);
     }
 
 }

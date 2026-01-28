@@ -8,8 +8,8 @@ public class Portal{
     public Portal() {
 
     }
-    public Portal(int Id,String portalName, String url, int usersActive, boolean working) {
-        setId(Id);
+    public Portal(int id, String portalName, String url, int usersActive, boolean working) {
+        setId(id);
         setPortalName(portalName);
         setUrl(url);
         setUsersActive(usersActive);
@@ -28,13 +28,13 @@ public class Portal{
         return portalName;
     }
     public void setPortalName(String portalName) {
-        this.portalName = User.checkblank(portalName);
+        this.portalName = User.checkBlank(portalName);
     }
     public String getUrl() {
         return url;
     }
     public void setUrl(String url) {
-        this.url = User.checkblank(url);
+        this.url = User.checkBlank(url);
     }
     public int getUsersActive() {
         return usersActive;

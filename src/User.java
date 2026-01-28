@@ -11,7 +11,7 @@ public abstract class User {
         setSphere(sphere);
     }
 
-    public static String checkblank(String value){
+    public static String checkBlank(String value){
         if (value == null || value.isEmpty()) {
             return "N/A";
         }
@@ -25,19 +25,19 @@ public abstract class User {
         return name;
     }
     public void setName(String name) {
-        this.name = checkblank(name);
+        this.name = checkBlank(name);
     }
     public String getCountry() {
         return country;
     }
     public void setCountry(String country) {
-        this.country = checkblank(country);
+        this.country = checkBlank(country);
     }
     public String getSphere() {
         return sphere;
     }
     public void setSphere(String sphere) {
-        this.sphere = checkblank(sphere);
+        this.sphere = checkBlank(sphere);
     }
 
     public abstract String getRole();
