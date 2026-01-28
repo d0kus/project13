@@ -9,13 +9,7 @@ public class Main{
 
         Joblisting job1 = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
         Joblisting job2 = new Joblisting(2, "IT designer", "DesignPro", "Design", false);
-        Joblisting job3 = new Joblisting();
-        job3.setId(1);
-        job3.setJobTitle("Data Scientist");
-        job3.setCompany("DataSolutions");
-        job3.setSphere("Data Science");
-        job3.setActive(false);
-        job3.activate();
+        Joblisting job3 = new Joblisting(3, "Developer", "Amigo", "IT", true);
 
         HashSet<Joblisting> setjob = new HashSet<>();
         setjob.add(job1);
@@ -27,22 +21,7 @@ public class Main{
         System.out.println("hashset contents" + setjob);
 
         Portal portal1 = new Portal(1,"FreelanceHub", "www.freelancehub.com", 5000, true);
-        Portal portal2 = new Portal();
-        portal2.setId(2);
-        portal2.setPortalName("JobConnect");
-        portal2.setUrl("www.jobconnect.com");
-        portal2.setUsersActive(3000);
-        portal2.setWorking(true);
-
-        HashSet<Portal> setport = new HashSet<>();
-        setport.add(portal1);
-        setport.add(portal2);
-        System.out.println("Number of unique portals in the set: " + setport.size());
-        System.out.println("portal1.equals portal2: " + portal1.equals(portal2));
-        System.out.println("portal1.hashCode(): " + portal1.hashCode());
-        System.out.println("portal2.hashCode(): " + portal2.hashCode());
-        System.out.println("hashset contents" + setport);
-        System.out.println(setport.contains(new Portal(1, "AnyTitle", "AnyCompany", 1222, true)));
+        Portal portal2 = new Portal(2,"JobFinder", "www.jobfinder.com", 8000, true);
 
         User u1 = new Freelancer(1, "Diyar", "Kazakhstan", "IT", 4.8);
         User u2 = new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT");
@@ -101,6 +80,8 @@ public class Main{
                 user.work();
             }
         }
+
+
         try (Connection con = Db.getConnection();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery("select version()")) {
@@ -113,18 +94,16 @@ public class Main{
         try {
             PortalRepository repo = new PortalRepository();
 
-            repo.insert(portal1);
-
             int port = sc.nextInt();
             System.out.println("Find id= "+ port + repo.findById(port));
 
-            repo.updateWorking(port, false); // UPDATE
+            repo.updateWorking(port, false);
             System.out.println("After update: " + repo.findById(port));
 
             System.out.println("All portals: " + repo.findAll());
 
-            repo.deleteById(port);
-            System.out.println("After delete, id= "+ port + repo.findById(port));
+            repo.updateUsersActive(2, 7500);
+            System.out.println("After updating users active: " + repo.findById(2));
         } catch (Exception e) {
             e.printStackTrace();
         }

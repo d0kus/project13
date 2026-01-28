@@ -67,12 +67,28 @@ public class PortalRepository {
             ps.executeUpdate();
         }
     }
+    public void updateUsersActive(int id, int usersActive) throws SQLException {
+        String sql = "update portals set users_active = ? where id = ?";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, usersActive);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        }
+    }
 
     public void deleteById(int id) throws SQLException {
         String sql = "delete from portals where id = ?";
         try (Connection con = Db.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+    public void deleteAll() throws SQLException {
+        String sql = "delete from portals";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.executeUpdate();
         }
     }
