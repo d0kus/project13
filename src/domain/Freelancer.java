@@ -1,3 +1,5 @@
+package domain;
+
 public class Freelancer extends User {
     private double rating;
 
@@ -29,7 +31,7 @@ public class Freelancer extends User {
 
     @Override
     public String getRole() {
-        return "Freelancer";
+        return "domain.Freelancer";
     }
 
     @Override

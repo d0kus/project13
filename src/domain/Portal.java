@@ -1,3 +1,5 @@
+package domain;
+
 public class Portal{
     private int id;
     private String portalName;
@@ -51,7 +53,7 @@ public class Portal{
 
     @Override
     public String toString() {
-        return "Portal ID: " + id + " Name: " + portalName + " URL: " + url + " Active Users: " + usersActive + " Working: " + working;
+        return "domain.Portal ID: " + id + " Name: " + portalName + " URL: " + url + " Active Users: " + usersActive + " Working: " + working;
     }
     @Override
     public boolean equals(Object o) {

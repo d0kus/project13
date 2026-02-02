@@ -1,4 +1,6 @@
-public class Employer extends  User {
+package domain;
+
+public class Employer extends User {
     private String company;
 
     public Employer(int id, String name, String country, String company, String sphere) {
@@ -15,7 +17,7 @@ public class Employer extends  User {
 
     @Override
     public String getRole() {
-        return "Employer";
+        return "domain.Employer";
     }
 
     @Override

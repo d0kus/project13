@@ -1,3 +1,10 @@
+package app;
+
+import domain.*;
+import pool.DataPool;
+import repository.Db;
+import repository.PortalRepository;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -27,7 +34,7 @@ public class Main{
         User u2 = new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT");
         User u3 = new Freelancer(3, "Anton", "Russia", "Design", 4.5);
 
-        System.out.println("Portal info: ");
+        System.out.println("domain.Portal info: ");
         System.out.println(portal1);
         System.out.println(portal2);
 
@@ -54,7 +61,7 @@ public class Main{
         int ent = sc.nextInt();
         User found = pool.findUserById(ent);
         if (found == null) {
-            System.out.println("User with id=" + ent + " not found");
+            System.out.println("domain.User with id=" + ent + " not found");
         } else {
             System.out.println(found);
         }
@@ -88,7 +95,7 @@ public class Main{
         int userid = sc.nextInt();
         User worker = pool.findUserById(userid);
         if (worker == null) {
-            System.out.println("User with id=" + userid + " not found");
+            System.out.println("domain.User with id=" + userid + " not found");
         } else {
             worker.work();
         }

@@ -1,3 +1,5 @@
+package domain;
+
 public class Joblisting {
     private int id;
     private String jobTitle;
@@ -78,7 +80,7 @@ public class Joblisting {
 
     @Override
     public String toString() {
-        return "Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
+        return "domain.Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
                 + ", isActive=" + isActive + "]";
     }
     @Override

@@ -1,3 +1,5 @@
+package domain;
+
 public abstract class User {
     private final int id;
     private String name;

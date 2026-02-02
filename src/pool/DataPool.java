@@ -1,3 +1,10 @@
+package pool;
+
+import domain.Freelancer;
+import domain.Joblisting;
+import domain.Portal;
+import domain.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
