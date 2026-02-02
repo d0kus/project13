@@ -31,7 +31,7 @@ public class Freelancer extends User {
 
     @Override
     public String getRole() {
-        return "domain.Freelancer";
+        return "Freelancer";
     }
 
     @Override

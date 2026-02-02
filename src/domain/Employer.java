@@ -17,7 +17,7 @@ public class Employer extends User {
 
     @Override
     public String getRole() {
-        return "domain.Employer";
+        return "Employer";
     }
 
     @Override

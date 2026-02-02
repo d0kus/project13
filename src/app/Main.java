@@ -4,6 +4,7 @@ import domain.*;
 import pool.DataPool;
 import repository.Db;
 import repository.PortalRepository;
+import repository.JoblistingRepository;
 import exceptions.EntityNotFoundException;
 import exceptions.ValidationException;
 
@@ -120,6 +121,16 @@ public class Main{
         }
         try {
             PortalRepository repo = new PortalRepository();
+            Portal p1 = new Portal(1, "FreelanceHub", "www.freelancehub.com", 5000, true);
+            Portal p2 = new Portal(2, "JobFinder", "www.jobfinder.com", 8000, true);
+
+            try {
+                repo.insert(p1);
+                repo.insert(p2);
+                System.out.println("Inserted portals 1 and 2 into DB");
+            } catch (Exception e) {
+                System.out.println("Insert skipped/failed (maybe already exists): " + e.getMessage());
+            }
 
             System.out.print("Enter portal id to find in DB: ");
             int port = sc.nextInt();
@@ -133,6 +144,48 @@ public class Main{
             catch (EntityNotFoundException e) {
                 System.out.println(e.getMessage());
             }
+
+            System.out.println("All portals from DB: " + repo.findAll());
+            System.out.print("Enter portal id to delete from DB: ");
+            int delId = sc.nextInt();
+            repo.deleteById(delId);
+            System.out.println("Deleted. Now all portals: " + repo.findAll());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JoblistingRepository jobRepo = new JoblistingRepository();
+            Joblisting j101 = new Joblisting(1, "Java Intern", "TechCorp", "IT", true);
+            Joblisting j102 = new Joblisting(2, "UI Designer", "DesignPro", "Design", true);
+
+            try {
+                jobRepo.insert(j101);
+                jobRepo.insert(j102);
+                System.out.println("Inserted joblistings 101 and 102 into DB");
+            } catch (Exception e) {
+                System.out.println("Insert skipped/failed (maybe already exists): " + e.getMessage());
+            }
+
+            System.out.print("Enter joblisting id to find in DB: ");
+            int jobId = sc.nextInt();
+
+            try {
+                System.out.println("Found: " + jobRepo.findById(jobId));
+
+                jobRepo.updateActive(jobId, false);
+                System.out.println("After updateActive(false): " + jobRepo.findById(jobId));
+            } catch (EntityNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+
+            System.out.println("All joblistings from DB: " + jobRepo.findAll());
+
+            System.out.print("Enter joblisting id to delete from DB: ");
+            int delId = sc.nextInt();
+            jobRepo.deleteById(delId);
+            System.out.println("Deleted. Now all joblistings: " + jobRepo.findAll());
 
         } catch (Exception e) {
             e.printStackTrace();

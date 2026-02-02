@@ -80,7 +80,7 @@ public class Joblisting {
 
     @Override
     public String toString() {
-        return "domain.Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
+        return "Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
                 + ", isActive=" + isActive + "]";
     }
     @Override
