@@ -2,7 +2,6 @@ package service;
 
 import domain.Portal;
 import repository.IPortalRepository;
-import repository.PortalRepository;
 
 import java.sql.SQLException;
 import java.util.List;

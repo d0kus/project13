@@ -2,7 +2,6 @@ package service;
 
 import domain.Joblisting;
 import repository.IJoblistingRepository;
-import repository.JoblistingRepository;
 
 import java.sql.SQLException;
 import java.util.List;
