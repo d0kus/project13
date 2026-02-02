@@ -157,8 +157,8 @@ public class Main{
 
         try {
             JoblistingRepository jobRepo = new JoblistingRepository();
-            Joblisting j101 = new Joblisting(1, "Java Intern", "TechCorp", "IT", true);
-            Joblisting j102 = new Joblisting(2, "UI Designer", "DesignPro", "Design", true);
+            Joblisting j101 = new Joblisting(101, "Java Intern", "TechCorp", "IT", true);
+            Joblisting j102 = new Joblisting(102, "UI Designer", "DesignPro", "Design", true);
 
             try {
                 jobRepo.insert(j101);
