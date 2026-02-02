@@ -71,7 +71,11 @@ public class PortalRepository implements IPortalRepository {
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setBoolean(1, working);
             ps.setInt(2, id);
-            ps.executeUpdate();
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new EntityNotFoundException("Portal with id=" + id + " not found");
+            }
         }
     }
     public void updateUsersActive(int id, int usersActive) throws SQLException {
@@ -89,7 +93,11 @@ public class PortalRepository implements IPortalRepository {
         try (Connection con = Db.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new EntityNotFoundException("Portal with id=" + id + " not found");
+            }
         }
     }
     public void deleteAll() throws SQLException {

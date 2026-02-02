@@ -70,7 +70,11 @@ public class JoblistingRepository implements IJoblistingRepository {
 
             ps.setBoolean(1, isActive);
             ps.setInt(2, id);
-            ps.executeUpdate();
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new EntityNotFoundException("Joblisting with id=" + id + " not found");
+            }
         }
     }
 
@@ -79,7 +83,11 @@ public class JoblistingRepository implements IJoblistingRepository {
         try (Connection con = Db.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new EntityNotFoundException("Joblisting with id=" + id + " not found");
+            }
         }
     }
 }
