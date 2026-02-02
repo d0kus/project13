@@ -4,6 +4,8 @@ import domain.*;
 import pool.DataPool;
 import repository.Db;
 import repository.PortalRepository;
+import exceptions.EntityNotFoundException;
+import exceptions.ValidationException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,6 +31,12 @@ public class Main{
 
         Portal portal1 = new Portal(1,"FreelanceHub", "www.freelancehub.com", 5000, true);
         Portal portal2 = new Portal(2,"JobFinder", "www.jobfinder.com", 8000, true);
+        try{
+            portal1.setUsersActive(-10);
+        }
+        catch(ValidationException e){
+            System.out.println("Validation error: " + e.getMessage());
+        }
 
         User u1 = new Freelancer(1, "Diyar", "Kazakhstan", "IT", 4.8);
         User u2 = new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT");
@@ -59,11 +67,11 @@ public class Main{
         System.out.println("type id to find user");
         Scanner sc = new Scanner(System.in);
         int ent = sc.nextInt();
-        User found = pool.findUserById(ent);
-        if (found == null) {
-            System.out.println("User with id=" + ent + " not found");
-        } else {
+        try{
+            User found = pool.findUserById(ent);
             System.out.println(found);
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
         }
 
         var active = pool.activeJob();
@@ -93,11 +101,11 @@ public class Main{
         }
         System.out.println("Type user id to check their work:");
         int userid = sc.nextInt();
-        User worker = pool.findUserById(userid);
-        if (worker == null) {
-            System.out.println("domain.User with id=" + userid + " not found");
-        } else {
+        try {
+            User worker = pool.findUserById(userid);
             worker.work();
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
         }
 
 
@@ -115,15 +123,17 @@ public class Main{
 
             System.out.print("Enter portal id to find in DB: ");
             int port = sc.nextInt();
-            System.out.println("Find id= "+ port + repo.findById(port));
 
-            repo.updateWorking(port, false);
-            System.out.println("After update: " + repo.findById(port));
+            try {
+                System.out.println("Find id=" + port + ": " + repo.findById(port));
 
-            System.out.println("All portals: " + repo.findAll());
+                repo.updateWorking(port, false);
+                System.out.println("After update: " + repo.findById(port));
+            }
+            catch (EntityNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
 
-            repo.updateUsersActive(2, 7500);
-            System.out.println("After updating users active: " + repo.findById(2));
         } catch (Exception e) {
             e.printStackTrace();
         }

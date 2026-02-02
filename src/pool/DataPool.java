@@ -4,6 +4,7 @@ import domain.Freelancer;
 import domain.Joblisting;
 import domain.Portal;
 import domain.User;
+import exceptions.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class DataPool {
                 return user;
             }
         }
-        return null;
+        throw new EntityNotFoundException("User with id " + id + " not found");
     }
 
     public List<Joblisting> activeJob() {

@@ -1,5 +1,7 @@
 package domain;
 
+import exceptions.ValidationException;
+
 public class Portal{
     private int id;
     private String portalName;
@@ -42,8 +44,12 @@ public class Portal{
         return usersActive;
     }
     public void setUsersActive(int usersActive) {
+        if (usersActive < 0) {
+            throw new ValidationException("Active users cannot be negative");
+        }
         this.usersActive = usersActive;
     }
+
     public boolean isWorking() {
         return working;
     }

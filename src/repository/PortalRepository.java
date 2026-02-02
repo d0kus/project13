@@ -1,6 +1,7 @@
 package repository;
 
 import domain.Portal;
+import exceptions.EntityNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ public class PortalRepository {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return null;
+                if (!rs.next()) {
+                    throw new EntityNotFoundException("Portal with id=" + id + " not found");
+                }
 
                 Portal p = new Portal();
                 p.setId(rs.getInt("id"));
