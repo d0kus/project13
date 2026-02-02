@@ -7,7 +7,7 @@ import java.util.List;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class JoblistingRepository {
+public class JoblistingRepository implements IJoblistingRepository {
 
     public void insert(Joblisting j) throws SQLException {
         String sql = "insert into joblistings (id, job_title, company, sphere, is_active) values (?, ?, ?, ?, ?)";

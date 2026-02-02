@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PortalRepository {
+public class PortalRepository implements IPortalRepository {
 
     public void insert(Portal p) throws SQLException {
         String sql = "insert into portals (id, portal_name, url, users_active, working) values (?, ?, ?, ?, ?)";

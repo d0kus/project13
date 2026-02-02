@@ -1,13 +1,18 @@
 package service;
 
 import domain.Joblisting;
+import repository.IJoblistingRepository;
 import repository.JoblistingRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class JoblistingService {
-    private final JoblistingRepository repo = new JoblistingRepository();
+    private final IJoblistingRepository repo;
+
+    public JoblistingService(IJoblistingRepository repo) {
+        this.repo = repo;
+    }
 
     public void seed() throws SQLException {
         try {

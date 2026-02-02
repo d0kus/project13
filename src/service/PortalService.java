@@ -1,13 +1,18 @@
 package service;
 
 import domain.Portal;
+import repository.IPortalRepository;
 import repository.PortalRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class PortalService {
-    private final PortalRepository repo = new PortalRepository();
+    private final IPortalRepository repo;
+
+    public PortalService(IPortalRepository repo) {
+        this.repo = repo;
+    }
 
     public void seed() throws SQLException {
         try {
