@@ -5,6 +5,7 @@ import repository.JoblistingRepository;
 import repository.PortalRepository;
 import service.JoblistingService;
 import service.PortalService;
+import factory.RepositoryFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,8 +14,8 @@ public class ApiServer {
     public static void main(String[] args) throws IOException {
         int port = 8080;
 
-        var portalService = new PortalService(new PortalRepository());
-        var jobService = new JoblistingService(new JoblistingRepository());
+        var portalService = new PortalService(RepositoryFactory.portalRepository());
+        var jobService = new JoblistingService(RepositoryFactory.joblistingRepository());
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 

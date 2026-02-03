@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import domain.Joblisting;
 import exceptions.EntityNotFoundException;
 import service.JoblistingService;
+import builder.JoblistingBuilder;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,13 +38,7 @@ public class JoblistingHandler implements HttpHandler {
                     String body = HttpUtil.readBody(ex);
                     Map<String, String> obj = SimpleJson.parseObject(body);
 
-                    Joblisting j = new Joblisting(
-                            Integer.parseInt(obj.get("id")),
-                            obj.get("jobTitle"),
-                            obj.get("company"),
-                            obj.get("sphere"),
-                            Boolean.parseBoolean(obj.get("active"))
-                    );
+                    Joblisting j = JoblistingBuilder.fromMap(obj).build();
 
                     jobService.create(j);
 

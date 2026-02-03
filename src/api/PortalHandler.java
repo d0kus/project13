@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import domain.Portal;
 import exceptions.EntityNotFoundException;
 import service.PortalService;
+import builder.PortalBuilder;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,13 +58,7 @@ public class PortalHandler implements HttpHandler {
                     String body = HttpUtil.readBody(ex);
                     Map<String, String> obj = SimpleJson.parseObject(body);
 
-                    Portal p = new Portal(
-                            Integer.parseInt(obj.get("id")),
-                            obj.get("portalName"),
-                            obj.get("url"),
-                            Integer.parseInt(obj.get("usersActive")),
-                            Boolean.parseBoolean(obj.get("working"))
-                    );
+                    Portal p = PortalBuilder.fromMap(obj).build();
 
                     portalService.create(p);
 
