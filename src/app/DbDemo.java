@@ -1,6 +1,7 @@
 package app;
 
 import exceptions.EntityNotFoundException;
+import factory.RepositoryFactory;
 import service.PortalService;
 import service.JoblistingService;
 import repository.PortalRepository;
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DbDemo {
-    private final PortalService portalService = new PortalService(new PortalRepository());
-    private final JoblistingService jobService = new JoblistingService(new JoblistingRepository());
+    private final PortalService portalService = new PortalService(RepositoryFactory.portalRepository());
+    private final JoblistingService jobService = new JoblistingService(RepositoryFactory.joblistingRepository());
 
     public void run(Scanner sc){
         try {
