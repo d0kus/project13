@@ -55,6 +55,32 @@ public class PortalHandler implements HttpHandler {
                 return;
             }
 
+            // ===== PATCH /api/portals/{id}/working =====
+            if (path.startsWith("/api/portals/") && path.endsWith("/working")) {
+                if (!method.equals("PATCH")) {
+                    HttpUtil.sendText(ex, 405, "Method Not Allowed");
+                    return;
+                }
+
+                String idPart = path.substring("/api/portals/".length(), path.length() - "/working".length());
+                int id = Integer.parseInt(idPart);
+
+                String body = HttpUtil.readBody(ex);
+                Map<String, String> obj = SimpleJson.parseObject(body);
+
+                if (!obj.containsKey("working")) {
+                    HttpUtil.sendJson(ex, 400, "{\"error\":\"Missing field 'working'\"}");
+                    return;
+                }
+
+                boolean working = Boolean.parseBoolean(obj.get("working"));
+                portalService.setWorking(id, working);
+
+                Portal updated = portalService.getById(id);
+                HttpUtil.sendJson(ex, 200, PortalJson.toJson(updated));
+                return;
+            }
+
             // ===== /api/portals/{id} =====
             if (path.startsWith("/api/portals/")) {
                 String idStr = path.substring("/api/portals/".length());
@@ -68,7 +94,6 @@ public class PortalHandler implements HttpHandler {
 
                 if (method.equals("DELETE")) {
                     portalService.deleteById(id);
-                    // 204 No Content
                     ex.sendResponseHeaders(204, -1);
                     ex.close();
                     return;

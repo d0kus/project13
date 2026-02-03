@@ -55,6 +55,32 @@ public class JoblistingHandler implements HttpHandler {
                 return;
             }
 
+            // ===== PATCH /api/joblistings/{id}/active =====
+            if (path.startsWith("/api/joblistings/") && path.endsWith("/active")) {
+                if (!method.equals("PATCH")) {
+                    HttpUtil.sendText(ex, 405, "Method Not Allowed");
+                    return;
+                }
+
+                String idPart = path.substring("/api/joblistings/".length(), path.length() - "/active".length());
+                int id = Integer.parseInt(idPart);
+
+                String body = HttpUtil.readBody(ex);
+                Map<String, String> obj = SimpleJson.parseObject(body);
+
+                if (!obj.containsKey("active")) {
+                    HttpUtil.sendJson(ex, 400, "{\"error\":\"Missing field 'active'\"}");
+                    return;
+                }
+
+                boolean active = Boolean.parseBoolean(obj.get("active"));
+                jobService.setActive(id, active);
+
+                Joblisting updated = jobService.getById(id);
+                HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(updated));
+                return;
+            }
+
             // ===== /api/joblistings/{id} =====
             if (path.startsWith("/api/joblistings/")) {
                 String idStr = path.substring("/api/joblistings/".length());

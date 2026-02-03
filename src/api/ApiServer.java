@@ -18,13 +18,8 @@ public class ApiServer {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        server.createContext("/api/ping", exchange -> {
-            String response = "pong";
-            exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=utf-8");
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            exchange.getResponseBody().write(response.getBytes());
-            exchange.close();
-        });
+        // было: server.createContext("/api/ping", exchange -> { ... });
+        server.createContext("/api/ping", new PingHandler());
 
         server.createContext("/api/portals", new PortalHandler(portalService));
         server.createContext("/api/joblistings", new JoblistingHandler(jobService));
