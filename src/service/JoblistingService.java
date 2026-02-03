@@ -38,4 +38,8 @@ public class JoblistingService {
     public void deleteById(int id) throws SQLException {
         repo.deleteById(id);
     }
+
+    public void create(Joblisting j) throws java.sql.SQLException {
+        repo.insert(j);
+    }
 }

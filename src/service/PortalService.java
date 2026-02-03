@@ -38,4 +38,8 @@ public class PortalService {
     public void deleteById(int id) throws SQLException {
         repo.deleteById(id);
     }
+
+    public void create(Portal p) throws SQLException {
+        repo.insert(p);
+    }
 }
