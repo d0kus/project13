@@ -33,8 +33,12 @@ public class DbDemo {
             System.out.println("All portals from DB: " + portalService.getAll());
             System.out.println("Enter portal ID to delete from DB:");
             int delPortId = sc.nextInt();
-            portalService.deleteById(delPortId);
-            System.out.println("Deleted. Now all portals: " + portalService.getAll());
+            try {
+                portalService.deleteById(delPortId);
+                System.out.println("Deleted. Now all portals: " + portalService.getAll());
+            } catch (EntityNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
 
 
             System.out.println("Enter Joblisting ID to find in DB:");
@@ -51,8 +55,12 @@ public class DbDemo {
             System.out.println("All joblistings from DB: " + jobService.getAll());
             System.out.println("Enter joblisting ID to delete from DB:");
             int delJobId = sc.nextInt();
-            jobService.deleteById(delJobId);
-            System.out.println("Deleted. Now all joblistings: " + jobService.getAll());
+            try {
+                jobService.deleteById(delJobId);
+                System.out.println("Deleted. Now all joblistings: " + jobService.getAll());
+            } catch (EntityNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
