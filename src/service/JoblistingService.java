@@ -2,6 +2,7 @@ package service;
 
 import domain.Joblisting;
 import repository.IJoblistingRepository;
+import exceptions.EntityNotFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,6 +29,9 @@ public class JoblistingService {
     }
 
     public void setActive(int id, boolean active) throws SQLException {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("Joblisting with id=" + id + " not found");
+        }
         repo.updateActive(id, active);
     }
 
@@ -36,6 +40,9 @@ public class JoblistingService {
     }
 
     public void deleteById(int id) throws SQLException {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("Joblisting with id=" + id + " not found");
+        }
         repo.deleteById(id);
     }
 

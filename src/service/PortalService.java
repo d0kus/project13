@@ -2,6 +2,7 @@ package service;
 
 import domain.Portal;
 import repository.IPortalRepository;
+import exceptions.EntityNotFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,6 +29,9 @@ public class PortalService {
     }
 
     public void setWorking(int id, boolean working) throws SQLException {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("Portal with id=" + id + " not found");
+        }
         repo.updateWorking(id, working);
     }
 
@@ -36,6 +40,9 @@ public class PortalService {
     }
 
     public void deleteById(int id) throws SQLException {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("Portal with id=" + id + " not found");
+        }
         repo.deleteById(id);
     }
 
