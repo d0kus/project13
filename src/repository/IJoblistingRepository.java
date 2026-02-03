@@ -15,4 +15,13 @@ public interface IJoblistingRepository {
     void updateActive(int id, boolean isActive) throws SQLException;
 
     void deleteById(int id) throws SQLException;
+
+    // Java feature: default interface method
+    default boolean existsById(int id) throws SQLException {
+        try {
+            return findById(id) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

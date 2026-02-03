@@ -51,6 +51,30 @@ public class PortalHandler implements HttpHandler {
                     return;
                 }
 
+
+                List<Portal> all = portalService.getAll();
+
+                var params = QueryString.parse(ex.getRequestURI().getQuery());
+                String workingParam = params.get("working");
+                String sort = params.get("sort");
+
+                java.util.function.Predicate<Portal> filter = p -> true;
+                if (workingParam != null) {
+                    boolean w = Boolean.parseBoolean(workingParam);
+                    filter = p -> p.isWorking() == w;
+                }
+
+                java.util.Comparator<Portal> sorter = null;
+                if ("usersActiveAsc".equals(sort)) {
+                    sorter = java.util.Comparator.comparingInt(Portal::getUsersActive);
+                } else if ("usersActiveDesc".equals(sort)) {
+                    sorter = (a, b) -> Integer.compare(b.getUsersActive(), a.getUsersActive());
+                }
+
+                all = util.QueryUtil.filterAndSort(all, filter, sorter);
+
+                HttpUtil.sendJson(ex, 200, PortalJson.toJson(all));
+
                 HttpUtil.sendText(ex, 405, "Method Not Allowed");
                 return;
             }

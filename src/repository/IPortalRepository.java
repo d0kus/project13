@@ -15,4 +15,13 @@ public interface IPortalRepository {
     void updateWorking(int id, boolean working) throws SQLException;
 
     void deleteById(int id) throws SQLException;
+
+    // Java feature: default interface method
+    default boolean existsById(int id) throws SQLException {
+        try {
+            return findById(id) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
