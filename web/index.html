@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Job Aggregator Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header>
+    <div class="top">
+        <h1>Job Aggregator Dashboard</h1>
+        <button id="reload">Reload</button>
+    </div>
+    <div id="status" class="status"></div>
+
+    <div class="cards">
+        <div class="card"><div class="k">Portals</div><div id="c_portals" class="v">—</div></div>
+        <div class="card"><div class="k">Working portals</div><div id="c_working" class="v">—</div></div>
+        <div class="card"><div class="k">Jobs</div><div id="c_jobs" class="v">—</div></div>
+        <div class="card"><div class="k">Active jobs</div><div id="c_active" class="v">—</div></div>
+        <div class="card wide"><div class="k">Top portal</div><div id="c_top" class="v">—</div></div>
+    </div>
+</header>
+
+<main class="grid">
+    <section class="panel">
+        <div class="panelTitle">
+            <h2>Portals</h2>
+            <div class="row">
+                <label>working</label>
+                <select id="workingFilter">
+                    <option value="">all</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select>
+
+                <label>sort</label>
+                <select id="portalSort">
+                    <option value="">none</option>
+                    <option value="usersActiveAsc">usersActiveAsc</option>
+                    <option value="usersActiveDesc">usersActiveDesc</option>
+                </select>
+            </div>
+        </div>
+
+        <table id="portalsTable">
+            <thead>
+            <tr>
+                <th>id</th><th>name</th><th>url</th><th>usersActive</th><th>working</th><th>actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h3>Create portal</h3>
+        <form id="portalForm" class="row wrap">
+            <input placeholder="id" id="p_id" required />
+            <input placeholder="portalName" id="p_name" required />
+            <input placeholder="url" id="p_url" required />
+            <input placeholder="usersActive" id="p_users" required />
+            <select id="p_working">
+                <option value="true">working=true</option>
+                <option value="false">working=false</option>
+            </select>
+            <button type="submit">Create</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="panelTitle">
+            <h2>Joblistings</h2>
+        </div>
+
+        <table id="jobsTable">
+            <thead>
+            <tr>
+                <th>id</th><th>jobTitle</th><th>company</th><th>sphere</th><th>active</th><th>actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h3>Create joblisting</h3>
+        <form id="jobForm" class="row wrap">
+            <input placeholder="id" id="j_id" required />
+            <input placeholder="jobTitle" id="j_title" required />
+            <input placeholder="company" id="j_company" required />
+            <input placeholder="sphere" id="j_sphere" required />
+            <select id="j_active">
+                <option value="true">active=true</option>
+                <option value="false">active=false</option>
+            </select>
+            <button type="submit">Create</button>
+        </form>
+    </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

@@ -29,5 +29,15 @@ public class ApiServer {
         server.start();
 
         System.out.println("API started on http://localhost:" + port);
+
+
+
+        server.createContext("/", new StaticFileHandler(java.nio.file.Path.of("web")));
+
+
+        server.createContext("/api/ping", new PingHandler());
+        server.createContext("/api/portals", new PortalHandler(portalService));
+        server.createContext("/api/joblistings", new JoblistingHandler(jobService));
+        server.createContext("/api/stats", new StatsHandler(portalService, jobService));
     }
 }
