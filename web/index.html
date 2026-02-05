@@ -14,6 +14,16 @@
     </div>
     <div id="status" class="status"></div>
 
+    <section class="authBar">
+        <form id="loginForm" class="row wrap" autocomplete="on">
+            <input id="login_user" placeholder="login" autocomplete="username" />
+            <input id="login_pass" placeholder="password" type="password" autocomplete="current-password" />
+            <button type="submit">Login</button>
+            <button type="button" id="logoutBtn" class="btnGhost">Logout</button>
+            <span class="authStatus">auth: <b id="authStatus">guest</b></span>
+        </form>
+    </section>
+
     <div class="cards">
         <div class="card"><div class="k">Portals</div><div id="c_portals" class="v">—</div></div>
         <div class="card"><div class="k">Working portals</div><div id="c_working" class="v">—</div></div>
@@ -24,18 +34,6 @@
 </header>
 
 <main class="grid">
-
-    <section class="card">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <label>Username <input id="login_user" autocomplete="username" /></label>
-            <label>Password <input id="login_pass" type="password" autocomplete="current-password" /></label>
-            <button type="submit">Sign in</button>
-            <button type="button" id="logoutBtn">Logout</button>
-            <div class="muted">Status: <span id="authStatus">guest</span></div>
-        </form>
-    </section>
-
     <section class="panel">
         <div class="panelTitle">
             <h2>Portals</h2>

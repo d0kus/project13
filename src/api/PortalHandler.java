@@ -29,7 +29,7 @@ public class PortalHandler implements HttpHandler {
         String path = ex.getRequestURI().getPath();
 
         try {
-            // AUTH: всё кроме GET — только admin
+            // RULE: only admin can mutate portals; everyone can GET
             if (!method.equalsIgnoreCase("GET")) {
                 Auth.requireAdmin(ex);
             }
@@ -40,7 +40,6 @@ public class PortalHandler implements HttpHandler {
                     List<Portal> portals = portalService.getAll();
                     Map<String, String> params = QueryString.parse(ex.getRequestURI().getQuery());
 
-                    // filter: ?working=true/false
                     String workingParam = params.get("working");
                     if (workingParam != null && !workingParam.isBlank()) {
                         boolean w = Boolean.parseBoolean(workingParam);
@@ -49,7 +48,6 @@ public class PortalHandler implements HttpHandler {
                                 .collect(Collectors.toList());
                     }
 
-                    // sort: ?sort=usersActiveAsc/usersActiveDesc
                     String sort = params.get("sort");
                     if ("usersActiveAsc".equals(sort)) {
                         portals.sort(Comparator.comparingInt(Portal::getUsersActive));
@@ -82,21 +80,18 @@ public class PortalHandler implements HttpHandler {
 
                 int id = Integer.parseInt(parts[3]);
 
-                // DELETE /api/portals/{id}
                 if (parts.length == 4 && method.equalsIgnoreCase("DELETE")) {
                     portalService.deleteById(id);
                     HttpUtil.sendJson(ex, 200, "{\"status\":\"deleted\"}");
                     return;
                 }
 
-                // PATCH /api/portals/{id}/working
                 if (parts.length == 5 && parts[4].equals("working") && method.equalsIgnoreCase("PATCH")) {
                     String body = HttpUtil.readBody(ex);
                     boolean working = PortalParse.parseWorking(body);
 
                     portalService.setWorking(id, working);
 
-                    // CASCADE: если выключили портал -> все joblistings inactive
                     if (!working) {
                         jobService.deactivateByPortalId(id);
                     }
@@ -112,7 +107,7 @@ public class PortalHandler implements HttpHandler {
             HttpUtil.sendText(ex, 404, "Not Found");
 
         } catch (UnauthorizedException ue) {
-            HttpUtil.sendJson(ex, 401, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
+            HttpUtil.sendJson(ex, 403, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
         } catch (ValidationException ve) {
             HttpUtil.sendJson(ex, 400, "{\"error\":\"" + esc(ve.getMessage()) + "\"}");
         } catch (SQLException se) {

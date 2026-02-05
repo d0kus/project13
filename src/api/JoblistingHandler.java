@@ -27,19 +27,18 @@ public class JoblistingHandler implements HttpHandler {
         String path = ex.getRequestURI().getPath();
 
         try {
-            // AUTH: всё кроме GET — только admin
-            if (!method.equalsIgnoreCase("GET")) {
-                Auth.requireAdmin(ex);
-            }
-
             if (path.equals("/api/joblistings")) {
+
                 if (method.equalsIgnoreCase("GET")) {
                     List<Joblisting> jobs = jobService.getAll();
                     HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(jobs));
                     return;
                 }
 
+                // RULE: POST is employer/admin only
                 if (method.equalsIgnoreCase("POST")) {
+                    Auth.requireEmployerOrAdmin(ex);
+
                     String body = HttpUtil.readBody(ex);
                     Joblisting j = JoblistingParse.fromJson(body);
 
@@ -63,18 +62,22 @@ public class JoblistingHandler implements HttpHandler {
 
                 int id = Integer.parseInt(parts[3]);
 
-                // DELETE /api/joblistings/{id}
+                // RULE: PATCH/DELETE are employer/admin only
                 if (parts.length == 4 && method.equalsIgnoreCase("DELETE")) {
+                    Auth.requireEmployerOrAdmin(ex);
+
                     jobService.deleteById(id);
                     HttpUtil.sendJson(ex, 200, "{\"status\":\"deleted\"}");
                     return;
                 }
 
-                // PATCH /api/joblistings/{id}/active
                 if (parts.length == 5 && parts[4].equals("active") && method.equalsIgnoreCase("PATCH")) {
+                    Auth.requireEmployerOrAdmin(ex);
+
                     String body = HttpUtil.readBody(ex);
                     boolean active = JoblistingParse.parseActive(body);
                     jobService.setActive(id, active);
+
                     HttpUtil.sendJson(ex, 200, "{\"status\":\"updated\"}");
                     return;
                 }
@@ -86,7 +89,7 @@ public class JoblistingHandler implements HttpHandler {
             HttpUtil.sendText(ex, 404, "Not Found");
 
         } catch (UnauthorizedException ue) {
-            HttpUtil.sendJson(ex, 401, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
+            HttpUtil.sendJson(ex, 403, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
         } catch (ValidationException ve) {
             HttpUtil.sendJson(ex, 400, "{\"error\":\"" + esc(ve.getMessage()) + "\"}");
         } catch (SQLException se) {
