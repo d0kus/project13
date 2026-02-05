@@ -22,8 +22,8 @@ public class ApiServer {
 
         // API
         server.createContext("/api/ping", new PingHandler());
-        server.createContext("/api/portals", new PortalHandler(portalService));
-        server.createContext("/api/joblistings", new JoblistingHandler(jobService));
+        server.createContext("/api/portals", new PortalHandler(portalService, jobService));
+        server.createContext("/api/joblistings", new JoblistingHandler(jobService, portalService));
         server.createContext("/api/stats", new StatsHandler(portalService, jobService));
 
         server.setExecutor(null);

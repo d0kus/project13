@@ -16,8 +16,6 @@ public class DbDemo {
 
     public void run(Scanner sc){
         try {
-            portalService.seed();
-            jobService.seed();
 
             System.out.println("Enter Portal ID to find in DB:");
             int portId = sc.nextInt();
