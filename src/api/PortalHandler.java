@@ -9,7 +9,10 @@ import service.PortalService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PortalHandler implements HttpHandler {
     private final PortalService portalService;
@@ -26,9 +29,34 @@ public class PortalHandler implements HttpHandler {
         String path = ex.getRequestURI().getPath();
 
         try {
+            // AUTH: всё кроме GET — только admin
+            if (!method.equalsIgnoreCase("GET")) {
+                Auth.requireAdmin(ex);
+            }
+
             if (path.equals("/api/portals")) {
+
                 if (method.equalsIgnoreCase("GET")) {
                     List<Portal> portals = portalService.getAll();
+                    Map<String, String> params = QueryString.parse(ex.getRequestURI().getQuery());
+
+                    // filter: ?working=true/false
+                    String workingParam = params.get("working");
+                    if (workingParam != null && !workingParam.isBlank()) {
+                        boolean w = Boolean.parseBoolean(workingParam);
+                        portals = portals.stream()
+                                .filter(p -> p.isWorking() == w)
+                                .collect(Collectors.toList());
+                    }
+
+                    // sort: ?sort=usersActiveAsc/usersActiveDesc
+                    String sort = params.get("sort");
+                    if ("usersActiveAsc".equals(sort)) {
+                        portals.sort(Comparator.comparingInt(Portal::getUsersActive));
+                    } else if ("usersActiveDesc".equals(sort)) {
+                        portals.sort((a, b) -> Integer.compare(b.getUsersActive(), a.getUsersActive()));
+                    }
+
                     HttpUtil.sendJson(ex, 200, PortalJson.toJson(portals));
                     return;
                 }
@@ -51,6 +79,7 @@ public class PortalHandler implements HttpHandler {
                     HttpUtil.sendText(ex, 400, "Bad Request");
                     return;
                 }
+
                 int id = Integer.parseInt(parts[3]);
 
                 // DELETE /api/portals/{id}
@@ -67,7 +96,7 @@ public class PortalHandler implements HttpHandler {
 
                     portalService.setWorking(id, working);
 
-                    // CASCADE: если выключили портал -> все joblistings на нём inactive
+                    // CASCADE: если выключили портал -> все joblistings inactive
                     if (!working) {
                         jobService.deactivateByPortalId(id);
                     }
@@ -82,6 +111,8 @@ public class PortalHandler implements HttpHandler {
 
             HttpUtil.sendText(ex, 404, "Not Found");
 
+        } catch (UnauthorizedException ue) {
+            HttpUtil.sendJson(ex, 401, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
         } catch (ValidationException ve) {
             HttpUtil.sendJson(ex, 400, "{\"error\":\"" + esc(ve.getMessage()) + "\"}");
         } catch (SQLException se) {

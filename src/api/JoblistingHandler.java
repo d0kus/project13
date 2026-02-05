@@ -27,7 +27,11 @@ public class JoblistingHandler implements HttpHandler {
         String path = ex.getRequestURI().getPath();
 
         try {
-            // /api/joblistings
+            // AUTH: всё кроме GET — только admin
+            if (!method.equalsIgnoreCase("GET")) {
+                Auth.requireAdmin(ex);
+            }
+
             if (path.equals("/api/joblistings")) {
                 if (method.equalsIgnoreCase("GET")) {
                     List<Joblisting> jobs = jobService.getAll();
@@ -50,7 +54,6 @@ public class JoblistingHandler implements HttpHandler {
                 return;
             }
 
-            // /api/joblistings/{id} and subpaths
             if (path.startsWith("/api/joblistings/")) {
                 String[] parts = path.split("/");
                 if (parts.length < 4) {
@@ -82,6 +85,8 @@ public class JoblistingHandler implements HttpHandler {
 
             HttpUtil.sendText(ex, 404, "Not Found");
 
+        } catch (UnauthorizedException ue) {
+            HttpUtil.sendJson(ex, 401, "{\"error\":\"" + esc(ue.getMessage()) + "\"}");
         } catch (ValidationException ve) {
             HttpUtil.sendJson(ex, 400, "{\"error\":\"" + esc(ve.getMessage()) + "\"}");
         } catch (SQLException se) {

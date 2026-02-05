@@ -1,25 +1,28 @@
 package api;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class QueryString {
-    public static Map<String, String> parse(String rawQuery) {
-        Map<String, String> map = new HashMap<>();
-        if (rawQuery == null || rawQuery.isBlank()) return map;
+    public static Map<String, String> parse(String query) {
+        Map<String, String> m = new HashMap<>();
+        if (query == null || query.isBlank()) return m;
 
-        for (String part : rawQuery.split("&")) {
-            String[] kv = part.split("=", 2);
-            String k = decode(kv[0]);
-            String v = kv.length > 1 ? decode(kv[1]) : "";
-            map.put(k, v);
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+            int eq = pair.indexOf('=');
+            if (eq < 0) {
+                m.put(urlDecode(pair), "");
+            } else {
+                String k = urlDecode(pair.substring(0, eq));
+                String v = urlDecode(pair.substring(eq + 1));
+                m.put(k, v);
+            }
         }
-        return map;
+        return m;
     }
 
-    private static String decode(String s) {
-        return URLDecoder.decode(s, StandardCharsets.UTF_8);
+    private static String urlDecode(String s) {
+        return s.replace("+", " "); // минимально достаточно для твоего UI
     }
 }
