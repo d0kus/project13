@@ -21,7 +21,6 @@ public class JoblistingRepository implements IJoblistingRepository {
             ps.setString(4, j.getCompany());
             ps.setString(5, j.getSphere());
             ps.setBoolean(6, j.isActive());
-
             ps.executeUpdate();
         }
     }

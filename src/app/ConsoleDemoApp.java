@@ -65,8 +65,8 @@ public class ConsoleDemoApp {
     private static void demoCollectionsEqualsHashCode() {
         System.out.println("== 2) Collections + equals/hashCode demo ==");
 
-        Joblisting a = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
-        Joblisting b = new Joblisting(1, "Software Engineer", "TechCorp", "IT", true);
+        Joblisting a = new Joblisting(1, 1, "Software Engineer", "TechCorp", "IT", true);
+        Joblisting b = new Joblisting(1, 1, "Software Engineer", "TechCorp", "IT", true);
 
         HashSet<Joblisting> set = new HashSet<>();
         set.add(a);
@@ -130,9 +130,9 @@ public class ConsoleDemoApp {
         pool.addUser(new Employer(2, "Aibek", "Kazakhstan", "TechCorp", "IT"));
         pool.addUser(new Freelancer(3, "Anton", "Russia", "Design", 4.5));
 
-        pool.addJoblisting(new Joblisting(1, "Software Engineer", "TechCorp", "IT", true));
-        pool.addJoblisting(new Joblisting(2, "IT designer", "DesignPro", "Design", false));
-        pool.addJoblisting(new Joblisting(3, "Developer", "Amigo", "IT", true));
+        pool.addJoblisting(new Joblisting(1, 1, "Software Engineer", "TechCorp", "IT", true));
+        pool.addJoblisting(new Joblisting(2, 1, "IT designer", "DesignPro", "Design", false));
+        pool.addJoblisting(new Joblisting(3, 2, "Developer", "Amigo", "IT", true));
 
         pool.addPortal(new Portal(1, "FreelanceHub", "www.freelancehub.com", 5000, true));
         pool.addPortal(new Portal(2, "JobFinder", "www.jobfinder.com", 8000, true));

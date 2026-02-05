@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class JoblistingBuilder {
     private int id;
+    private int portalId;
     private String jobTitle;
     private String company;
     private String sphere;
@@ -14,6 +15,7 @@ public class JoblistingBuilder {
     public static JoblistingBuilder fromMap(Map<String, String> obj) {
         return new JoblistingBuilder()
                 .id(Integer.parseInt(obj.get("id")))
+                .portalId(Integer.parseInt(obj.getOrDefault("portalId", "0")))
                 .jobTitle(obj.get("jobTitle"))
                 .company(obj.get("company"))
                 .sphere(obj.get("sphere"))
@@ -21,12 +23,13 @@ public class JoblistingBuilder {
     }
 
     public JoblistingBuilder id(int id) { this.id = id; return this; }
+    public JoblistingBuilder portalId(int portalId) { this.portalId = portalId; return this; }
     public JoblistingBuilder jobTitle(String jobTitle) { this.jobTitle = jobTitle; return this; }
     public JoblistingBuilder company(String company) { this.company = company; return this; }
     public JoblistingBuilder sphere(String sphere) { this.sphere = sphere; return this; }
     public JoblistingBuilder active(boolean active) { this.active = active; return this; }
 
     public Joblisting build() {
-        return new Joblisting(id, jobTitle, company, sphere, active);
+        return new Joblisting(id, portalId, jobTitle, company, sphere, active);
     }
 }
