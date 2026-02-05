@@ -2,6 +2,7 @@ package domain;
 
 public class Joblisting {
     private int id;
+    private int portalId;
     private String jobTitle;
     private String company;
     private String sphere;
@@ -11,8 +12,9 @@ public class Joblisting {
 
     }
 
-    public Joblisting(int Id, String jobTitle, String company, String sphere, boolean isActive) {
+    public Joblisting(int Id, int portalId, String jobTitle, String company, String sphere, boolean isActive) {
         setId(Id);
+        setPortalId(portalId);
         setJobTitle(jobTitle);
         setCompany(company);
         setSphere(sphere);
@@ -24,6 +26,13 @@ public class Joblisting {
     }
     public void setId(int Id) {
         this.id = Id;
+    }
+
+    public int getPortalId() {
+        return portalId;
+    }
+    public void setPortalId(int portalId) {
+        this.portalId = portalId;
     }
 
     public String getJobTitle() {
@@ -58,6 +67,10 @@ public class Joblisting {
         this.isActive = isActive;
     }
 
+    public void changePortalId(int newPortalId) {
+        this.portalId = newPortalId;
+    }
+
     public void changeJobTitle(String newJobTitle) {
         this.jobTitle = User.checkBlank(newJobTitle);
     }
@@ -80,9 +93,14 @@ public class Joblisting {
 
     @Override
     public String toString() {
-        return "Joblisting [Id=" + id + ", jobTitle=" + jobTitle + ", Company=" + company + ", Sphere=" + sphere
+        return "Joblisting [Id=" + id
+                + ", portalId=" + portalId
+                + ", jobTitle=" + jobTitle
+                + ", Company=" + company
+                + ", Sphere=" + sphere
                 + ", isActive=" + isActive + "]";
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,9 +108,9 @@ public class Joblisting {
         Joblisting that = (Joblisting) o;
         return id == that.id;
     }
+
     @Override
     public int hashCode() {
         return Integer.hashCode(id);
     }
-
 }

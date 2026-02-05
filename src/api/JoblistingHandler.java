@@ -3,46 +3,46 @@ package api;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import domain.Joblisting;
-import exceptions.EntityNotFoundException;
+import domain.Portal;
+import exceptions.ValidationException;
 import service.JoblistingService;
-import builder.JoblistingBuilder;
+import service.PortalService;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class JoblistingHandler implements HttpHandler {
     private final JoblistingService jobService;
+    private final PortalService portalService;
 
-    public JoblistingHandler(JoblistingService jobService) {
+    public JoblistingHandler(JoblistingService jobService, PortalService portalService) {
         this.jobService = jobService;
+        this.portalService = portalService;
     }
 
     @Override
     public void handle(HttpExchange ex) throws IOException {
+        String method = ex.getRequestMethod();
+        String path = ex.getRequestURI().getPath();
+
         try {
-            String method = ex.getRequestMethod();
-            String path = ex.getRequestURI().getPath(); // /api/joblistings or /api/joblistings/101
-
-            // ===== /api/joblistings =====
+            // /api/joblistings
             if (path.equals("/api/joblistings")) {
-
-                if (method.equals("GET")) {
-                    List<Joblisting> all = jobService.getAll();
-                    HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(all));
+                if (method.equalsIgnoreCase("GET")) {
+                    List<Joblisting> jobs = jobService.getAll();
+                    HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(jobs));
                     return;
                 }
 
-                if (method.equals("POST")) {
+                if (method.equalsIgnoreCase("POST")) {
                     String body = HttpUtil.readBody(ex);
-                    Map<String, String> obj = SimpleJson.parseObject(body);
+                    Joblisting j = JoblistingParse.fromJson(body);
 
-                    Joblisting j = JoblistingBuilder.fromMap(obj).build();
+                    Portal p = portalService.getById(j.getPortalId());
+                    jobService.create(j, p);
 
-                    jobService.create(j);
-
-                    HttpUtil.sendJson(ex, 201, JoblistingJson.toJson(j));
+                    HttpUtil.sendJson(ex, 201, "{\"status\":\"created\"}");
                     return;
                 }
 
@@ -50,61 +50,41 @@ public class JoblistingHandler implements HttpHandler {
                 return;
             }
 
-            // ===== PATCH /api/joblistings/{id}/active =====
-            if (path.startsWith("/api/joblistings/") && path.endsWith("/active")) {
-                if (!method.equals("PATCH")) {
-                    HttpUtil.sendText(ex, 405, "Method Not Allowed");
-                    return;
-                }
-
-                String idPart = path.substring("/api/joblistings/".length(), path.length() - "/active".length());
-                int id = Integer.parseInt(idPart);
-
-                String body = HttpUtil.readBody(ex);
-                Map<String, String> obj = SimpleJson.parseObject(body);
-
-                if (!obj.containsKey("active")) {
-                    HttpUtil.sendJson(ex, 400, "{\"error\":\"Missing field 'active'\"}");
-                    return;
-                }
-
-                boolean active = Boolean.parseBoolean(obj.get("active"));
-                jobService.setActive(id, active);
-
-                Joblisting updated = jobService.getById(id);
-                HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(updated));
-                return;
-            }
-
-            // ===== /api/joblistings/{id} =====
+            // /api/joblistings/{id} and subpaths
             if (path.startsWith("/api/joblistings/")) {
-                String idStr = path.substring("/api/joblistings/".length());
-                int id = Integer.parseInt(idStr);
-
-                if (method.equals("GET")) {
-                    Joblisting j = jobService.getById(id);
-                    HttpUtil.sendJson(ex, 200, JoblistingJson.toJson(j));
+                String[] parts = path.split("/");
+                if (parts.length < 4) {
+                    HttpUtil.sendText(ex, 400, "Bad Request");
                     return;
                 }
 
-                if (method.equals("DELETE")) {
+                int id = Integer.parseInt(parts[3]);
+
+                // DELETE /api/joblistings/{id}
+                if (parts.length == 4 && method.equalsIgnoreCase("DELETE")) {
                     jobService.deleteById(id);
-                    ex.sendResponseHeaders(204, -1);
-                    ex.close();
+                    HttpUtil.sendJson(ex, 200, "{\"status\":\"deleted\"}");
                     return;
                 }
 
-                HttpUtil.sendText(ex, 405, "Method Not Allowed");
+                // PATCH /api/joblistings/{id}/active
+                if (parts.length == 5 && parts[4].equals("active") && method.equalsIgnoreCase("PATCH")) {
+                    String body = HttpUtil.readBody(ex);
+                    boolean active = JoblistingParse.parseActive(body);
+                    jobService.setActive(id, active);
+                    HttpUtil.sendJson(ex, 200, "{\"status\":\"updated\"}");
+                    return;
+                }
+
+                HttpUtil.sendText(ex, 404, "Not Found");
                 return;
             }
 
             HttpUtil.sendText(ex, 404, "Not Found");
 
-        } catch (EntityNotFoundException e) {
-            HttpUtil.sendJson(ex, 404, "{\"error\":\"" + esc(e.getMessage()) + "\"}");
-        } catch (NumberFormatException e) {
-            HttpUtil.sendJson(ex, 400, "{\"error\":\"Bad id/number format\"}");
-        } catch (SQLException e) {
+        } catch (ValidationException ve) {
+            HttpUtil.sendJson(ex, 400, "{\"error\":\"" + esc(ve.getMessage()) + "\"}");
+        } catch (SQLException se) {
             HttpUtil.sendJson(ex, 500, "{\"error\":\"DB error\"}");
         } catch (Exception e) {
             HttpUtil.sendJson(ex, 500, "{\"error\":\"Server error\"}");

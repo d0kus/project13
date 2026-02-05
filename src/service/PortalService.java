@@ -24,10 +24,12 @@ public class PortalService {
             System.out.println("Insert skipped/failed(maybe already exist): " + e.getMessage());
         }
     }
+
     public Portal getById(int id) throws SQLException {
         return repo.findById(id);
     }
 
+    // NOTE: каскад будет делаться в PortalHandler (там есть доступ к jobService)
     public void setWorking(int id, boolean working) throws SQLException {
         if (!repo.existsById(id)) {
             throw new EntityNotFoundException("Portal with id=" + id + " not found");

@@ -16,6 +16,9 @@ public interface IJoblistingRepository {
 
     void deleteById(int id) throws SQLException;
 
+    // NEW
+    void deactivateByPortalId(int portalId) throws SQLException;
+
     // Java feature: default interface method
     default boolean existsById(int id) throws SQLException {
         try {

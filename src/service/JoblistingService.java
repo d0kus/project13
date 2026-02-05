@@ -1,8 +1,10 @@
 package service;
 
 import domain.Joblisting;
-import repository.IJoblistingRepository;
+import domain.Portal;
 import exceptions.EntityNotFoundException;
+import exceptions.ValidationException;
+import repository.IJoblistingRepository;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,18 +16,22 @@ public class JoblistingService {
         this.repo = repo;
     }
 
-    public void seed() throws SQLException {
-        try {
-            repo.insert(new Joblisting(101, "Software Engineer", "TechCorp", "IT", true));
-            repo.insert(new Joblisting(102, "Data Analyst", "DataSolutions", "Analytics", true));
-            repo.insert(new Joblisting(103, "Project Manager", "BusinessInc", "Management", false));
-            System.out.println("Inserted joblistings 101, 102, 103 into DB.");
-        } catch (Exception e) {
-            System.out.println("Insert skipped/failed(maybe already exist): " + e.getMessage());
-        }
+    public List<Joblisting> getAll() throws SQLException {
+        return repo.findAll();
     }
+
     public Joblisting getById(int id) throws SQLException {
         return repo.findById(id);
+    }
+
+    public void create(Joblisting j, Portal portal) throws SQLException {
+        if (portal == null) {
+            throw new ValidationException("portalId does not exist");
+        }
+        if (!portal.isWorking()) {
+            throw new ValidationException("Cannot create joblisting: portal is not working");
+        }
+        repo.insert(j);
     }
 
     public void setActive(int id, boolean active) throws SQLException {
@@ -35,10 +41,6 @@ public class JoblistingService {
         repo.updateActive(id, active);
     }
 
-    public List<Joblisting> getAll() throws SQLException {
-        return repo.findAll();
-    }
-
     public void deleteById(int id) throws SQLException {
         if (!repo.existsById(id)) {
             throw new EntityNotFoundException("Joblisting with id=" + id + " not found");
@@ -46,7 +48,7 @@ public class JoblistingService {
         repo.deleteById(id);
     }
 
-    public void create(Joblisting j) throws java.sql.SQLException {
-        repo.insert(j);
+    public void deactivateByPortalId(int portalId) throws SQLException {
+        repo.deactivateByPortalId(portalId);
     }
 }

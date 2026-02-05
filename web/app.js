@@ -66,6 +66,7 @@ async function loadJobs() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
       <td>${j.id}</td>
+      <td>${j.portalId}</td>
       <td>${j.jobTitle}</td>
       <td>${j.company}</td>
       <td>${j.sphere}</td>
@@ -111,6 +112,7 @@ $("jobForm").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const body = {
         id: $("j_id").value,
+        portalId: $("j_portalId").value,
         jobTitle: $("j_title").value,
         company: $("j_company").value,
         sphere: $("j_sphere").value,
