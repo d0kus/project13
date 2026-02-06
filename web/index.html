@@ -105,6 +105,25 @@
             <button type="submit">Create</button>
         </form>
     </section>
+
+    <section class="panel">
+        <div class="panelTitle">
+            <h2>Users (polymorphism demo)</h2>
+        </div>
+
+        <table id="usersTable">
+            <thead>
+            <tr>
+                <th>id</th><th>name</th><th>role</th><th>country</th><th>sphere</th><th>action</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="status mutedNote">
+            Tip: click <b>work</b> to call polymorphic <code>User.work()</code> on server.
+        </div>
+    </section>
 </main>
 
 <script src="/app.js"></script>

@@ -3,6 +3,7 @@ package app;
 import domain.*;
 import exceptions.EntityNotFoundException;
 import exceptions.ValidationException;
+import factory.RepositoryFactory;
 import pool.DataPool;
 
 import java.util.HashSet;
@@ -22,16 +23,14 @@ public class ConsoleDemoApp {
                 case "2" -> demoCollectionsEqualsHashCode();
                 case "3" -> demoDataPoolSearchFilterSort(sc);
                 case "4" -> demoExceptionsAndValidation(sc);
-                case "5" -> new DbDemo().run(sc); // optional DB demo
+                case "5" -> new DbDemo().run(sc); // optional DB demo (seed/find/update/delete) - already exists in your project
+                case "6" -> new DbCrudDemo(RepositoryFactory.portalRepository()).run(sc); // NEW: full CRUD cycle
                 case "0" -> {
                     System.out.println("Bye.");
                     return;
                 }
                 default -> System.out.println("Unknown option.");
             }
-
-            System.out.println("\n--- Press Enter to continue ---");
-            sc.nextLine();
         }
     }
 
@@ -43,6 +42,7 @@ public class ConsoleDemoApp {
                 3) DataPool: search/filter/sort
                 4) Exceptions + Validation
                 5) DB demo (seed/find/update/delete) [optional]
+                6) DB CRUD cycle (Portal): create -> read -> update -> delete
                 0) Exit
                 """);
         System.out.print("Choose: ");
@@ -59,6 +59,9 @@ public class ConsoleDemoApp {
         System.out.println("Calling work() on User references:");
         u1.work();
         u2.work();
+
+        System.out.println("\n--- Press Enter to continue ---");
+        new Scanner(System.in).nextLine();
     }
 
     // 2) Collections: HashSet uniqueness + equals/hashCode
@@ -77,6 +80,9 @@ public class ConsoleDemoApp {
         System.out.println("b.hashCode(): " + b.hashCode());
         System.out.println("HashSet size (should be 1 if equals/hashCode are correct): " + set.size());
         System.out.println("HashSet contents: " + set);
+
+        System.out.println("\n--- Press Enter to continue ---");
+        new Scanner(System.in).nextLine();
     }
 
     // 3) DataPool: search/filter/sort
@@ -97,6 +103,9 @@ public class ConsoleDemoApp {
 
         System.out.println("Active joblistings: " + pool.activeJob());
         System.out.println("Freelancers sorted by rating desc: " + pool.sortFreelancersByRatingDesc());
+
+        System.out.println("\n--- Press Enter to continue ---");
+        sc.nextLine();
     }
 
     // 4) Exceptions + validation
@@ -121,6 +130,9 @@ public class ConsoleDemoApp {
         } catch (EntityNotFoundException e) {
             System.out.println("Caught EntityNotFoundException: " + e.getMessage());
         }
+
+        System.out.println("\n--- Press Enter to continue ---");
+        sc.nextLine();
     }
 
     private static DataPool seedPool() {

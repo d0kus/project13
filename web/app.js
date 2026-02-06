@@ -140,9 +140,32 @@ async function loadJobs() {
     }
 }
 
+async function loadUsers() {
+    const data = await http("GET", "/api/users");
+    const table = $("usersTable");
+    if (!table) return;
+
+    const tbody = table.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    for (const u of data) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+      <td>${u.id}</td>
+      <td>${u.name}</td>
+      <td>${u.role}</td>
+      <td>${u.country}</td>
+      <td>${u.sphere}</td>
+      <td>
+        <button class="smallbtn btnGhost" data-kind="user" data-act="work" data-id="${u.id}">work</button>
+      </td>`;
+        tbody.appendChild(tr);
+    }
+}
+
 async function reloadAll() {
     try {
-        await Promise.all([loadStats(), loadPortals(), loadJobs()]);
+        await Promise.all([loadStats(), loadPortals(), loadJobs(), loadUsers()]);
         setStatus("Loaded.");
     } catch (e) {
         setStatus(e.message, true);
@@ -206,9 +229,17 @@ document.addEventListener("click", async (ev) => {
             } else if (btn.dataset.act === "toggle") {
                 await http("PATCH", `/api/joblistings/${id}/active`, { active: toBool(btn.dataset.val) });
             }
+        } else if (kind === "user") {
+            if (btn.dataset.act === "work") {
+                const r = await http("POST", `/api/users/${id}/work`, {});
+                setStatus(r.message);
+            }
         }
 
-        await reloadAll();
+        // для user->work не обязательно reloadAll, но пусть будет ок
+        if (!(kind === "user" && btn.dataset.act === "work")) {
+            await reloadAll();
+        }
     } catch (e) {
         setStatus(e.message, true);
     }
